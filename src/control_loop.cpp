@@ -71,9 +71,11 @@ ControlLoop<T>::ControlLoop(RobotControl& robot,
   if (!setCurrentThreadToHighestSchedulerPriority(&error_message) && throw_on_error) {
     throw RealtimeException(error_message);
   }
-  if (throw_on_error && !hasRealtimeKernel()) {
-    throw RealtimeException("libfranka: Running kernel does not have realtime capabilities.");
-  }
+  // if thread successfully setted up realtime prio on thread, than it has a realtime kernel
+  // also /sys/kernel/realtime doesn't exist in some linux distros
+  /*if (throw_on_error && !hasRealtimeKernel()) {
+    throw RealtimeException("libfranka2: Running kernel does not have realtime capabilities.");
+  }*/
 }
 
 template <typename T>
